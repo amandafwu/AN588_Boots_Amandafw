@@ -1,0 +1,44 @@
+---
+title: "Amandafw_OriginalHomeworkCode_05"
+author: "Amanda Wu"
+date: "2023-11-12"
+output: html_document
+---
+
+### [1] Using the “KamilarAndCooperData.csv” dataset, run a linear regression looking at log(HomeRange_km2) in relation to log(Body_mass_female_mean) and report your β
+ coeffiecients (slope and intercept).
+```{r Question 1}
+library(curl)
+f <- curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN588_Fall21/KamilarAndCooperData.csv") #loading data
+d <- read.csv(f, header = TRUE, sep = ",", stringsAsFactors = TRUE) 
+head(d) #making sure data is in 
+model <- lm(data = d, log(HomeRange_km2) ~ log(Body_mass_female_mean)) #making the linear regression
+model$coefficients #gives the slope and intercept 
+summary(model)
+```
+
+### [2] Then, use bootstrapping to sample from your data 1000 times with replacement, each time fitting the same model and calculating the same coefficients. This generates a sampling distribution for each β coefficient.
+  + Estimate the standard error for each of your β coefficients as the standard deviation of the sampling distribution from your bootstrap and determine the 95% CI for each of your β coefficients based on the appropriate quantiles from your sampling distribution.
+  + How does the former compare to the SE estimated from your entire dataset using the formula for standard error implemented in lm()?
+  + How does the latter compare to the 95% CI estimated from your entire dataset?
+```{r Question 2}
+library(boot)
+set.seed(1) 
+bmodel <- function(d, inds) {
+  data_samples <- d[inds, ] # generates samples from dataset 
+  model <- lm(data = data_samples, log(HomeRange_km2) ~ log(Body_mass_female_mean)) # same model
+  return(coef(model)) # prints
+}
+
+boot_results <- boot(d, bmodel, R = 1000) # boot function from documentation 
+boot_results
+sd(boot_results$t) # not positive if this is how you calculate SD ?
+boot.ci(boot_results, conf = 0.95) # looks similar to the model ! 
+```
+
+```{r Question 2 CI and SE from D}
+summary(model) 
+confint(model)
+```
+
+The estimated 95% CI values for the dataset and the bootstrapped sampling distribution are super close to each other but the SE values appears to be different. However, this may be due to the fact that 
