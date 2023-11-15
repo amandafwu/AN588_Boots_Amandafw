@@ -41,4 +41,4 @@ summary(model)
 confint(model)
 ```
 
-The estimated 95% CI values for the dataset and the bootstrapped sampling distribution are super close to each other but the SE values appears to be different. However, this may be due to the fact that 
+The both the estimated 95% CI values and the SE values for the dataset and the bootstrapped sampling distribution are super close to each other. The bootstrapped sampling distribution seems to be a bit tighter but they are still really really close. 
