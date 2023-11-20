@@ -38,9 +38,17 @@ sd(boot_results$t) # not positive if this is how you calculate SD ?
 boot.ci(boot_results, conf = 0.95) # looks similar to the model ! 
 ```
 
+<!-- For this question: "Estimate the standard error for each of your β coefficients as the standard deviation of the sampling distribution from your bootstrap..." you only calculated the SD, but we want the SEs of each beta coefficient, which is calculated using SD. So you should get 2 numbers: the 2 SEs for the slope and intercept.  -->
+<!-- I used the function apply(), which is used to apply a function to margins of an array/matrix. Here, we are applying SD to our beta coefficients.  -->
+<!-- I used this code: -->
+<!-- se_b <- apply(b_coefs, 2, sd). Where my b_coefs is your boot_results$t and the 2 represents columns, so it's taking the SD of the columns, which are the beta coefficients. Hope this makes sense. I can't be sure that mine is right, either, but I hope it helps a bit! - Julianna -->
+
 ```{r Question 2 CI and SE from D}
 summary(model) 
 confint(model)
 ```
 
 The both the estimated 95% CI values and the SE values for the dataset and the bootstrapped sampling distribution are super close to each other. The bootstrapped sampling distribution seems to be a bit tighter but they are still really really close. 
+
+<!-- Nice job here! I got the same thing! Overall, great job on this HW code, Amanda! :) - Julianna -->
+
